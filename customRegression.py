@@ -123,10 +123,23 @@ y = df[["SalePrice"]]
 X = np.asmatrix(X)
 weights = np.asmatrix([0 for _ in range(X.shape[1])]).transpose()
 
-for _ in range(1000):
-    #gradient = 2 * np.dot(np.dot(X.transpose(),X),weights) - 2 * np.dot(X.transpose(),y)
-    #weights = weights - 1e-12 * gradient
-    pass
+LR = SimpleLinearRegression(df1)
+LR.gradient_descent()
+plt.scatter(df1["Wins"],df1["Winnings"])
+predictions = [df1["Wins"][i] * LR.w1 + LR.w0 for i in range(len(df1["Wins"]))]
+print("R squared: " + str(r2_score(LR.y,predictions)))
+plt.plot(df1["Wins"],predictions,color="red")
+plt.show()
+
+LR = MultipleLinearRegression(df1)
+LR.metrics()
+
+
+#print(df1.corr()["Winnings"])
+#study correlation matrix to find best features to use that have biggest impact on output
+#dataframe.corr()["output"] usually > .7 good to use as features in dataset
+
+#Shown that gradient descent results in better R^2 score than stochastic gradient descent for this dataset with no noticeable change to time complexity
 
 #study correlation matrix to find best features to use that have biggest impact on output
 #dataframe.corr()["output"] usually > .5 good to use as features in dataset
